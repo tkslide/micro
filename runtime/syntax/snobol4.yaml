@@ -6,61 +6,53 @@ detect:
 rules:
   - constant.number: "\\b([0-9]+)\\b"
 
-  - statement: "\\b(?i:(any|apply|arb|arbno|arg|array))\\b\\("
-  - statement: "\\b(?i:(break))\\(\\b"
-  - statement: "\\b(?i:(char|clear|code|collect|convert|copy))\\b\\("
-  - statement: "\\b(?i:(data|datatype|date|define|detach|differ|dump|dupl))\\b\\("
-  - statement: "\\b(?i:(endfile|eq|eval))\\b\\("
-  - statement: "\\b(?i:(field))\\b\\("
-  - statement: "\\b(?i:(ge|gt|ident))\\b\\("
-  - statement: "\\b(?i:(input|integer|item))\\b\\("
-  - statement: "\\b(?i:(le|len|lgt|local|lpad|lt))\\b\\("
-  - statement: "\\b(?i:(ne|notany))\\b\\("
-  - statement: "\\b(?i:(opsyn|output))\\b\\("
-  - statement: "\\b(?i:(pos|prototype))\\b\\("
-  - statement: "\\b(?i:(remdr|replace|rpad|rpos|rtab|rewind))\\b\\("
-  - statement: "\\b(?i:(size|span|stoptr))\\(\\b"
-  - statement: "\\b(?i:(tab|table|time|trace|trim|terminal))\\b\\("
-  - statement: "\\b(?i:(unload))\\b\\("
-  - statement: "\\b(?i:(value))\\b\\("
-  - statement: "\\b(?i:(breakx))\\b\\("
-  - statement: "\\b(?i:(char|chop))\\b\\("
-  - statement: "\\b(?i:(date|delete))\\b\\("
-  - statement: "\\b(?i:(exp))\\b\\("
-  - statement: "\\b(?i:(freeze|function))\\b\\("
-  - statement: "\\b(?i:(host))\\b\\("
-  - statement: "\\b(?i:(io_findunit))\\b\\("
-  - statement: "\\b(?i:(label|lpad|leq|lge|lle|llt|lne|log))\\b\\("
-  - statement: "\\b(?i:(ord))\\b\\("
-  - statement: "\\b(?i:(reverse|rpad|rsort|rename))\\b\\("
-  - statement: "\\b(?i:(serv_listen|sset|set|sort|sqrt|substr))\\b\\("
-  - statement: "\\b(?i:(thaw))\\b\\("
-  - statement: "\\b(?i:(vdiffer))\\b\\("
-
-
   - symbol: "(\\(|\\))"
 
+
+  - identifier.class: "\\b(?i:(abort|continue|freturn|nreturn|return|scontinue|start|(?:{{variable}})?(end|end|end)))\\b"
+  - identifier.class: "\\b(?i:(input|output|terminal))\\b"
+  - identifier.class: "\\b(?i:(arb|bal|fail|fence|rem|epsilon))\\b"
+  - identifier.class: "\\b(?i:(null|true|false|digits))\\b"
+  - identifier.class: "\\b(?i:(bslash|bksp|bs|cr|fslash|ff|ht|lf|nl|nul|tab|vt))\\b"
+  - identifier.class: "\\b(?i:(any|arbno|break|breakx|fence|len|notany|pos|rpos|rtab|span|tab))\\b"
+  - identifier.class: "\\b(?i:(code|eval))\\b"
+  - identifier.class: "\\b(?i:(array|convert|copy|data|field|item|prototype|rsort|sort|table))\\b"
+  - identifier.class: "\\b(?i:(atan|chop|cos|exp|ln|remdr|sin|sqrt|tan))\\b"
+  - identifier.class: "\\b(?i:(differ|ident|integer|lt|le|gt|ge|eq|ne|llt|lle|lgt|lge|leq|lne))\\b"
+  - identifier.class: "\\b(?i:(backspace|detach|eject|endfile|input|output|rewind|set))\\b"
+  - identifier.class: "\\b(?i:(clear|collect|dump))\\b"
+  - identifier.class: "\\b(?i:(date|exit|host|setexit|stoptr|time|trace))\\b"
+  - identifier.class: "\\b(?i:(apply|arg|datatype|define|load|local|opsyn|unload))\\b"
+  - identifier.class: "\\b(?i:(char|dupl|lpad|replace|rename|reverse|rpad|size|substr|trim))\\b"
+  - identifier.class: "\\b(?i:(assign|match|not_match|nInc|nDec|nPush|nPop|Push|Pop|Top|PushCounter|PopCounter|TopCounter|IncCounter|DecCounter|UTFLEN|UTFSUBSTR))\\b"
+  - identifier.class: "\\b(?i:(freeze|thaw))\\b"
+
+  # keywords
+  - type.keyword: "&\\b(?i:(abort|alphabet|arb|bal|fail|fence|file|fnclevel|lastfile|lastline|lastno|lcase|line|rem|rtntype|stcount|stno|succeed|ucase))\\b"
+  - type.keyword: "&\\b(?i:(abend|anchor|case|code|compare|dump|errlimit|errtext|errtype|ftrace|input|maxlngth|output|profile|stlimit|trace|trim|fullscan|parm))\\b"
+
+  # comments start with '*' or '#' (Unix compatibility), end with the EOL or ";" (continuation)
   - comment:
       start: "(#|\\*)"
       end: "($|;)"
-      rules: []
-      
-  - constant.string:
-      start: "'"
-      end: "('|$)"
-      skip: "\""
-      rules:
-        - constant.specialChar: "\\\\."
+      skip: "(';'|\";\")"
 
+  # strings can be surrounded by "" or ''
   - constant.string:
       start: "\""
-      end: "(\"|$)"
-      skip: "'"
-      rules:
-        - constant.specialChar: "\\\\."
+      end: "\""
 
-  - special: ":(?i:(|f|s)\\([^\\)]+\\))$"
-  - special: "&\\b(?i:(abort|alphabet|anchor|arb|bal|case|code|digits|dump|errlimit|errtext|errtype|fail|fence|fnclevel|ftrace|fullscan|input|lastno|lcase|maxlngth|output|parm|rem|rtntype|stcount|stfcount|stlimit|stno|succeed|trace|trim|ucase))\\b"
-  - special: "&\\b(?i:(gtrace|line|file|lastline|lastfile))\\b"
+  - constant.string:
+      start: "'"
+      end: "'" 
+     
+  # goto (on success 's', on failure 'f', or unconditional '')
+  - special: 
+      start: ":(?i:(s|f))?\\("
+      end: "$"
+      
+  # label
   - special: "(^|;)[A-Za-z]\\S*\\b"
 
+  # directives
+  - identifier.macro: "-\\b(INCLUDE|CASE|LINE|ERROR|NOERRORS|EXECUTE|NOEXECUTE)\\b"
