@@ -8,7 +8,7 @@ rules:
 
   - symbol: "(\\(|\\))"
 
-
+  # Snobol4 functions
   - identifier.class: "\\b(?i:(abort|continue|freturn|nreturn|return|scontinue|start|(?:{{variable}})?(end|end|end)))\\b"
   - identifier.class: "\\b(?i:(input|output|terminal))\\b"
   - identifier.class: "\\b(?i:(arb|bal|fail|fence|rem|epsilon))\\b"
@@ -16,16 +16,27 @@ rules:
   - identifier.class: "\\b(?i:(bslash|bksp|bs|cr|fslash|ff|ht|lf|nl|nul|tab|vt))\\b"
   - identifier.class: "\\b(?i:(any|arbno|break|breakx|fence|len|notany|pos|rpos|rtab|span|tab))\\b"
   - identifier.class: "\\b(?i:(code|eval))\\b"
-  - identifier.class: "\\b(?i:(array|convert|copy|data|field|item|prototype|rsort|sort|table))\\b"
-  - identifier.class: "\\b(?i:(atan|chop|cos|exp|ln|remdr|sin|sqrt|tan))\\b"
+  - identifier.class: "\\b(?i:(array|copy|data|field|item|prototype|rsort|sort|table))\\b"
+  - identifier.class: "\\b(?i:(ln|remdr))\\b"
   - identifier.class: "\\b(?i:(differ|ident|integer|lt|le|gt|ge|eq|ne|llt|lle|lgt|lge|leq|lne))\\b"
   - identifier.class: "\\b(?i:(backspace|detach|eject|endfile|input|output|rewind|set))\\b"
   - identifier.class: "\\b(?i:(clear|collect|dump))\\b"
   - identifier.class: "\\b(?i:(date|exit|host|setexit|stoptr|time|trace))\\b"
   - identifier.class: "\\b(?i:(apply|arg|datatype|define|load|local|opsyn|unload))\\b"
-  - identifier.class: "\\b(?i:(char|dupl|lpad|replace|rename|reverse|rpad|size|substr|trim))\\b"
+  - identifier.class: "\\b(?i:(char|dupl|lpad|replace|rename|reverse|rpad|size|trim))\\b"
   - identifier.class: "\\b(?i:(assign|match|not_match|nInc|nDec|nPush|nPop|Push|Pop|Top|PushCounter|PopCounter|TopCounter|IncCounter|DecCounter|UTFLEN|UTFSUBSTR))\\b"
   - identifier.class: "\\b(?i:(freeze|thaw))\\b"
+  - identifier.class: "\\b(?i:(io_findunit))\\b"
+
+  # Snobol4+ real functions
+  - identifier.class: "\\b(?i:(exp|log|chop))\\b"
+
+  # Sitbol functions
+  - identifier.class: "\\b(?i:(file|delete|rename))\\b"
+
+  # Spitbol functions
+  - identifier.class: "\\b(?i:(convert|sqrt|substr|sin|cos|tan))\\b"
+
 
   # keywords
   - type.keyword: "&\\b(?i:(abort|alphabet|arb|bal|fail|fence|file|fnclevel|lastfile|lastline|lastno|lcase|line|rem|rtntype|stcount|stno|succeed|ucase))\\b"
@@ -54,5 +65,7 @@ rules:
   # label
   - special: "(^|;)[A-Za-z]\\S*\\b"
 
-  # directives
+  # Snobol4 directives
   - identifier.macro: "-\\b(INCLUDE|CASE|LINE|ERROR|NOERRORS|EXECUTE|NOEXECUTE)\\b"
+  # Spitbol directives
+  - identifier.macro: "-\\b(PLUSOPTS)\\b"
