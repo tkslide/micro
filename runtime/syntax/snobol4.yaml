@@ -57,10 +57,17 @@ rules:
       start: "'"
       end: "'" 
      
+  # indirect
+  - identifier.macro: "\\$\\([^\\)]+\\)"
+  - identifier.macro: "\\$\\S+"
+
   # goto (on success 's', on failure 'f', or unconditional '')
+  # use separate highlighting for embedded indirect evaluation
   - special: 
       start: ":(?i:(s|f))?\\("
       end: "$"
+      rules:
+        - identifier.macro: "\\$\\([^\\)]+\\)"
       
   # label
   - special: "(^|;)[A-Za-z]\\S*\\b"
